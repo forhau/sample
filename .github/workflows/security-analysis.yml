@@ -24,7 +24,7 @@ jobs:
       uses: crytic/slither-action@v0.4.1
       id: slither
       with:
-        target: 'src/'
+        target: 'src/contracts'
         sarif: slither-results.sarif
         fail-on: none
         slither-args: '--exclude naming-convention,solc-version'
