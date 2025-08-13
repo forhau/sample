@@ -12,7 +12,6 @@ jobs:
   slither-solidity:
     name: Slither Analysis (Solidity)
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'sol') || github.event_name == 'schedule' || github.event_name == 'pull_request'
     permissions:
       contents: read
       security-events: write
@@ -25,7 +24,7 @@ jobs:
       uses: crytic/slither-action@v0.4.1
       id: slither
       with:
-        target: '.'
+        target: 'src/'
         sarif: slither-results.sarif
         fail-on: none
         slither-args: '--exclude naming-convention,solc-version'
