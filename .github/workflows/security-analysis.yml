@@ -23,11 +23,7 @@ jobs:
         submodules: recursive
       
     - name: Install Foundry
-      run: |
-        curl -L https://foundry.paradigm.xyz | bash
-        source ~/.bashrc
-        ~/.foundry/bin/foundryup
-        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+      uses: foundry-rs/foundry-toolchain@v1
         
     - name: Install forge-std
       run: |
