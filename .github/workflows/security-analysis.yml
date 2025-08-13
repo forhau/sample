@@ -23,12 +23,17 @@ jobs:
         submodules: recursive
       
     - name: Install Foundry
-      uses: foundry-rs/foundry-toolchain@v1
-      with:
-        version: nightly
+      run: |
+        curl -L https://foundry.paradigm.xyz | bash
+        export PATH="$HOME/.foundry/bin:$PATH"
+        source ~/.bashrc
+        foundryup
+        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
         
     - name: Install forge-std
-      run: forge install foundry-rs/forge-std --no-commit || true
+      run: |
+        export PATH="$HOME/.foundry/bin:$PATH"
+        forge install foundry-rs/forge-std --no-commit || true
       
     - name: Run Slither
       uses: crytic/slither-action@v0.4.1
