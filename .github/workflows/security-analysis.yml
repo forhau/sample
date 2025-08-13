@@ -22,35 +22,15 @@ jobs:
       with:
         submodules: recursive
       
-    - name: Install Foundry manually
-      run: |
-        # Download foundry binaries directly
-        mkdir -p $HOME/.foundry/bin
-        curl -L https://github.com/foundry-rs/foundry/releases/download/nightly/foundry_nightly_linux_amd64.tar.gz | tar -xz -C $HOME/.foundry/bin
-        chmod +x $HOME/.foundry/bin/*
-        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
-        
-    - name: Verify Foundry installation
-      run: |
-        export PATH="$HOME/.foundry/bin:$PATH"
-        which forge
-        forge --version
-        
-    - name: Install forge-std
-      run: |
-        export PATH="$HOME/.foundry/bin:$PATH"
-        forge install foundry-rs/forge-std --no-commit || true
-      
     - name: Run Slither
       uses: crytic/slither-action@v0.4.1
       id: slither
-      env:
-        PATH: ${{ env.PATH }}:$HOME/.foundry/bin
       with:
-        target: 'src/contracts'
+        target: '.'
         sarif: slither-results.sarif
         fail-on: none
-        slither-args: '--exclude naming-convention,solc-version'
+        ignore-compile: false
+        slither-args: '--exclude naming-convention,solc-version --foundry-out-dir out'
         
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v3
