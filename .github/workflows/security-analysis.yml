@@ -22,8 +22,19 @@ jobs:
       with:
         submodules: recursive
       
-    - name: Install Foundry
-      uses: foundry-rs/foundry-toolchain@v1
+    - name: Install Foundry manually
+      run: |
+        # Download foundry binaries directly
+        mkdir -p $HOME/.foundry/bin
+        curl -L https://github.com/foundry-rs/foundry/releases/download/nightly/foundry_nightly_linux_amd64.tar.gz | tar -xz -C $HOME/.foundry/bin
+        chmod +x $HOME/.foundry/bin/*
+        echo "$HOME/.foundry/bin" >> $GITHUB_PATH
+        
+    - name: Verify Foundry installation
+      run: |
+        export PATH="$HOME/.foundry/bin:$PATH"
+        which forge
+        forge --version
         
     - name: Install forge-std
       run: |
@@ -33,6 +44,8 @@ jobs:
     - name: Run Slither
       uses: crytic/slither-action@v0.4.1
       id: slither
+      env:
+        PATH: ${{ env.PATH }}:$HOME/.foundry/bin
       with:
         target: 'src/contracts'
         sarif: slither-results.sarif
