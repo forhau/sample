@@ -1,0 +1,22 @@
+{
+  "name": "security-test-sample",
+  "version": "1.0.0",
+  "description": "Sample project for testing Slither and CodeQL security analysis with Forge",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "fmt": "forge fmt",
+    "slither": "slither src/"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "solidity",
+    "rust",
+    "security",
+    "testing",
+    "forge",
+    "foundry"
+  ],
+  "author": "Security Test",
+  "license": "MIT"
+}
